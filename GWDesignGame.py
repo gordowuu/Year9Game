@@ -3,6 +3,9 @@ from art import *
 import time
 import playsound
 from pygame import mixer
+import textgamelib
+#clear console
+textgamelib.clearConsole()
 #title
 titleArt = text2art("Clue Beakout", font="small")
 starCount = 0
@@ -27,7 +30,8 @@ collaborationStar()
 #room1
 
 def box():
-    print("As you kneel down to look at the big box you realize there is a 2 slot code lock. You have to find 2 numbers that will open the lock. Maybe something behind the door will give me the code.")
+    global boxOpen
+    print("As you kneel down to look at the big box you realize there is a 2 slot code lock. You have to find 2 numbers that will open the lock. Maybe something behind the doors will give you the code.")
     testLock = input("Do you want to test the lock? type y for yes or n for no:")
     print(testLock)
     if testLock.lower() == "y":
@@ -49,34 +53,34 @@ def box():
             print("Return to the box if you would like to try again.")
     if testLock.lower() == "n":
         print("Your stand up from the box.")
-        room1 = input("Where do you want to go? (Type 'B' for the box, '1' for door 1, '2' for door 2): ")
+        
 
 
         
    
 
 def door1():
-    print("You walking up to door 1 and it is open, you walk through and on the wall is a black board.\nOn the black board it says: Solve 2 + 15 -8")
+    print("You walking up to door 1 and it is open, you walk through and on the wall is a black board.\nOn the black board it says: Solve 2 + 15 - 8")
     door1 = (input("What is the answer to the question?:"))
-    while door1 != 9:
+    while door1 != "9":
         print("You write", door1, "on the black board and suddenly the board starts speaking\nThe blackboard says, Try again!")
-        door1 = int(input("What is the answer to the question?:"))
-    if door1 == 9:
+        door1 = (input("What is the answer to the question?:"))
+    if door1 == "9":
          print("You write 9 on the black board and suddenly it starts speaking\nThe blackboard says, Good Job! Now LEAVE THIS ROOM! I NEED TO SLEEP! You quickly run out and close the door behind you.")
-         room1 = input("Where do you want to go? (Type 'B' for the box, '1' for door 1, '2' for door 2): ")
+         
 
 def door2():
     print("You walk into door 2 and on the wall you find an old grandfather clock.\nYou notice that the minute hand is at 12, and the hour hand is at 6" )
     mixer.init()
     mixer.music.load('./Year9Game/music/clock.mp3')
     mixer.music.play()
-    door2 = int(input("What time is it? (write the number, for example 2 not two) :"))
-    while door2 != 6:
-        print("You say",door2,"o clock out loud and suddenly the clock comes to life.\n Mr. Clock says: HEY THAT NOT MY CURRENT TIME, try again")
-        door2 = int(input("What time is it?:"))
-    if door2 == 6:
+    door2 = (input("What time is it? (write the number, for example 2 not two) :"))
+    while door2 != "6":
+        print("You say",door2,"o clock out loud and suddenly the clock comes to life.\n Mr. Clock says: HEY THAT NOT MY CURRENT TIME, try again (make sure you type with numbers not letters")
+        door2 = (input("What time is it?:"))
+    if door2 == "6":
         print("You say 6 out loud and suddenly the clock comes to life.\nMr. Clock says: Nice, finally someone that can actually understand me, NOW SCRAM I NEED TO MOVE MY HANDS! \nSo you walk back out into the main room.")
-        room1 = input("Where do you want to go? (Type 'B' for the box, '1' for door 1, '2' for door 2): ")
+        
     mixer.music.stop()
 
 boxOpen = False
@@ -91,7 +95,15 @@ while boxOpen == False:
         door2()
 
 
+#room2 
+Alan = "Alan is a 11 year old Chinese boy that loves to read books and code. He is very smart and is very observant."
+Claire = "Claire is a 12 year old Canadian girl that loves to eat food and draw. She is very creative and has good eyesight"
+Bob = "Ishir is a 10 year old Indian boy that loves to play sports like soccer and tennis. He is very strong and fast."
 
+while boxOpen == True:
+    print("You go down the ladder and find your self in a small room and a table. On the table is a telephone and a note.")
+    print("You grab the note and on the note it says:\nThis magic telephone will allow you to call one of the other children that have escaped room 1. They can help you escape the other rooms but you don't have to call them.")
+    print("")
 
 
    
