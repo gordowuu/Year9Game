@@ -4,12 +4,15 @@ import time
 import playsound
 from pygame import mixer
 import textgamelib
+import random
 #clear console
 textgamelib.clearConsole()
 #title
-titleArt = text2art("Clue Beakout", font="small")
+titleArt = text2art("Clue Breakout", font="small")
 starCount = 0
+
 def collaborationStar():
+    global starCount
     print("⭐")
     playsound.playsound('./Year9Game/music/star.mp3')
     print("You currently have", starCount, "collaboration stars.")
@@ -31,6 +34,7 @@ collaborationStar()
 
 def box():
     global boxOpen
+    global starCount
     print("As you kneel down to look at the big box you realize there is a 2 slot code lock. You have to find 2 numbers that will open the lock. Maybe something behind the doors will give you the code.")
     testLock = input("Do you want to test the lock? type y for yes or n for no:")
     print(testLock)
@@ -48,7 +52,10 @@ def box():
             print("The lock did not click when you spun to",slot2,",this means it is not the right answer.")
         if slot1 == "9" and slot2 == "6":
             boxOpen = True
-            print("Good job you broke the code!\nNow you open the box and realize there is a hole at the bottom with a ladder.")
+            print("Good job you broke the code!\nNow you open the box and realize there is a colaboration star inside of it. But also under the star is a hole with a ladder.")
+            print("You pick up the collaboration star and suddenly it disapears and turns into lots of glitter.")
+            starCount += 1
+            collaborationStar()
         else:
             print("Return to the box if you would like to try again.")
     if testLock.lower() == "n":
@@ -98,15 +105,35 @@ while boxOpen == False:
 #room2 
 Alan = "Alan is a 11 year old Chinese boy that loves to read books and code. He is very smart and is very observant."
 Claire = "Claire is a 12 year old Canadian girl that loves to eat food and draw. She is very creative and has good eyesight"
-Bob = "Ishir is a 10 year old Indian boy that loves to play sports like soccer and tennis. He is very strong and fast."
-
+Ishir = "Ishir is a 10 year old Indian boy that loves to play sports like soccer and tennis. He is very strong and fast."
+friendList = [Alan, Claire, Ishir]
 while boxOpen == True:
-    print("You go down the ladder and find your self in a small room and a table. On the table is a telephone and a note.")
-    print("You grab the note and on the note it says:\nThis magic telephone will allow you to call one of the other children that have escaped room 1. They can help you escape the other rooms but you don't have to call them.")
-    print("")
+    time.sleep(2)
+    print("You go down the ladder and find your self in a small room with table. On the table is a telephone and a note.")
+    print("You grab the note and on the note it says:\nThis magic telephone will allow you to call one of the other children that have escaped room 1. They can help you escape the other rooms but you don't have to work with them.")
+    print("When you answer the phone they will be introduce but if you don't want to work with them ignore the phone.")
+    phoneChoice = input("Do you want to call the phone? y/n:").lower()
+
+    if phoneChoice == "y":
+        print("You call the magical phone and suddenly someone answers the phone.")
+        friend1 = random.randint(1,3)
+        room2Difficulty = True
+        if friend1 == 1:
+            print(Alan)
+        elif friend1 == 2:
+            print(Claire)
+        else:
+            print(Ishir)
+        print("You decided that you want to work with a friend. You suddenly feel fuzzy and feel a tingle because you realize you are being teleported.")
+    
+    if phoneChoice == "n":
+        room2Difficulty = False
+        print("You decided that you want to escape alone. You suddenly feel fuzzy and feel a tingle because you realize you are being teleported.")
+
+# def room2WithFriend():
+    
 
 
-   
 
 
 
