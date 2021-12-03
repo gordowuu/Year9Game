@@ -31,7 +31,7 @@ print("Each collaboration star looks like this:")
 collaborationStar()
 
 #room1
-
+print("You start in room 1. Alone and lost. You notice that there is a big box in the middle of the room and 2 doors behind it.")
 def box():
     global boxOpen
     global starCount
@@ -67,7 +67,7 @@ def box():
    
 
 def door1():
-    print("You walking up to door 1 and it is open, you walk through and on the wall is a black board.\nOn the black board it says: Solve 2 + 15 - 8")
+    print("You walk up to door 1 and it is open, you walk through and on the wall is a black board.\nOn the black board it says: Solve 2 + 15 - 8")
     door1 = (input("What is the answer to the question?:"))
     while door1 != "9":
         print("You write", door1, "on the black board and suddenly the board starts speaking\nThe blackboard says, Try again!")
@@ -103,34 +103,96 @@ while boxOpen == False:
 
 
 #room2 
+def room2WithFriend():
+    global boxOpen
+    print("You some how end up in another room. This time with a whiteboard on the wall and your new friend",friend1Name)
+    print("On the whiteboard, someone wrote:\nRiddle me this! What goes up but never comes down.")
+    correct = False
+    incorrectScore = 0
+    riddleAnswer = input("What is the answer to the question?:")
+    while correct == False:
+        if "age" in riddleAnswer:
+                print("The whiteboard says: Almost there, think a little deeper!")
+                riddleAnswer = input("What is the answer to the question?:")
+                incorrectScore += 1
+        elif riddleAnswer == infoList[1]:
+            incorrectScore = 0
+            print(friend1Name,"says: Good job! We did it")
+            boxOpen = False
+            correct = True
+        else:
+            print("The whiteboard says: Not quite, please try again!")
+            riddleAnswer = input("What is the answer to the question?:")
+            incorrectScore += 1
+        if incorrectScore == 1:
+            print(friend1Name, "says: OH I think I have heard of this riddle before. I think the answer is your age. Your age always goes up but never comes down!")
+        elif incorrectScore == 3:
+            print(friend1Name, "says: WOW now it makes sense to me, think about the first few question when we first started this game.")
+        
+        
+        
+def room2WithOutFriend():
+    global boxOpen
+    print("You some how end up in another room. This time with a whiteboard on the wall.")
+    print("On the whiteboard, someone wrote:\nRiddle me this! What goes up but never comes down.")
+    correct = False
+    riddleAnswer = input("What is the answer to the question?:")
+    while correct == False:
+        if "age" in riddleAnswer:
+                print("The whiteboard says: Almost there, think a little deeper!")
+                riddleAnswer = input("What is the answer to the question?:")
+        elif riddleAnswer == infoList[1]:
+            print("Good job! You did it")
+            boxOpen = False
+            correct = True
+        else:
+            print("The whiteboard says: Not quite, please try again!")
+            riddleAnswer = input("What is the answer to the question?:")
+        
+
+    
+
+        
+
+
 Alan = "Alan is a 11 year old Chinese boy that loves to read books and code. He is very smart and is very observant."
 Claire = "Claire is a 12 year old Canadian girl that loves to eat food and draw. She is very creative and has good eyesight"
 Ishir = "Ishir is a 10 year old Indian boy that loves to play sports like soccer and tennis. He is very strong and fast."
 friendList = [Alan, Claire, Ishir]
+
 while boxOpen == True:
     time.sleep(2)
     print("You go down the ladder and find your self in a small room with table. On the table is a telephone and a note.")
     print("You grab the note and on the note it says:\nThis magic telephone will allow you to call one of the other children that have escaped room 1. They can help you escape the other rooms but you don't have to work with them.")
-    print("When you answer the phone they will be introduce but if you don't want to work with them ignore the phone.")
+    print("When you answer the phone they will be introduced but if you don't want to work with them ignore the phone.")
     phoneChoice = input("Do you want to call the phone? y/n:").lower()
 
     if phoneChoice == "y":
         print("You call the magical phone and suddenly someone answers the phone.")
         friend1 = random.randint(1,3)
-        room2Difficulty = True
+        hasFriend = True
         if friend1 == 1:
             print(Alan)
+            friend1Name = "Alan"
         elif friend1 == 2:
             print(Claire)
+            friend1Name = "Claire"
         else:
             print(Ishir)
-        print("You decided that you want to work with a friend. You suddenly feel fuzzy and feel a tingle because you realize you are being teleported.")
-    
-    if phoneChoice == "n":
-        room2Difficulty = False
-        print("You decided that you want to escape alone. You suddenly feel fuzzy and feel a tingle because you realize you are being teleported.")
+            friend1Name = "Ishir"
 
-# def room2WithFriend():
+    if phoneChoice.lower() == "y":
+        time.sleep(2)
+        print("You decided that you want to work with a friend. You suddenly feel fuzzy and feel a tingle because you realize you are being teleported.")
+        room2WithFriend()
+    
+    if phoneChoice.lower() == "n":
+        time.sleep(2)
+        print("You decided that you want to escape alone. You suddenly feel fuzzy and feel a tingle because you realize you are being teleported.")
+        room2WithOutFriend()
+
+#room3
+
     
 
 
