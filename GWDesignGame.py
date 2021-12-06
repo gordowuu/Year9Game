@@ -10,6 +10,7 @@ textgamelib.clearConsole()
 #title
 titleArt = text2art("Clue Breakout", font="small")
 starCount = 0
+gameOver = text2art("Game Over", font="small")
 
 def collaborationStar():
     global starCount
@@ -26,7 +27,7 @@ infoList = info.getUserInfo()
 
 print ("Hello", infoList[0],"you have been invited to participate in the Clue Breakout")
 time.sleep(2)
-print("In this game you will be trying to escape multiple rooms by solving puzzles.\nAt the end of the game you want to collect 5 collaboration stars.")
+print("In this game you will be trying to escape multiple rooms by solving puzzles.\nAt the end of the game you want to collect 3 collaboration stars.")
 print("Each collaboration star looks like this:")
 collaborationStar()
 
@@ -105,6 +106,7 @@ while boxOpen == False:
 #room2 
 def room2WithFriend():
     global boxOpen
+    global starCount
     print("You some how end up in another room. This time with a whiteboard on the wall and your new friend",friend1Name)
     print("On the whiteboard, someone wrote:\nRiddle me this! What goes up but never comes down.")
     correct = False
@@ -118,6 +120,11 @@ def room2WithFriend():
         elif riddleAnswer == infoList[1]:
             incorrectScore = 0
             print(friend1Name,"says: Good job! We did it")
+            print("The whiteboard hands you a collaboration star!")
+            starCount += 1
+            collaborationStar()
+            time.sleep(1)
+            print("Suddenly a dark mysterious man appears before your eyes!")
             boxOpen = False
             correct = True
         else:
@@ -133,21 +140,39 @@ def room2WithFriend():
         
 def room2WithOutFriend():
     global boxOpen
+    global starCount
     print("You some how end up in another room. This time with a whiteboard on the wall.")
     print("On the whiteboard, someone wrote:\nRiddle me this! What goes up but never comes down.")
     correct = False
     riddleAnswer = input("What is the answer to the question?:")
+    incorrectScore = 0
     while correct == False:
         if "age" in riddleAnswer:
                 print("The whiteboard says: Almost there, think a little deeper!")
                 riddleAnswer = input("What is the answer to the question?:")
+                incorrectScore += 1
         elif riddleAnswer == infoList[1]:
             print("Good job! You did it")
+            print("The whiteboard hands you a collaboration star!")
+            starCount += 1
+            collaborationStar()
+            time.sleep(1)
+            print("Suddenly a dark mysterious man appears before your eyes!")
             boxOpen = False
             correct = True
         else:
             print("The whiteboard says: Not quite, please try again!")
             riddleAnswer = input("What is the answer to the question?:")
+            incorrectScore += 1
+        
+        if incorrectScore > 4:
+            correct = True
+            boxOpen = False
+            print("Your marker has ran out of ink.")
+            print(gameOver)
+            print("You finished the game but didn't escape.")
+            print("Your finished the game with a total of ",starCount,"Collaboration Stars\n Thanks for playing!")
+
         
 
     
@@ -192,6 +217,145 @@ while boxOpen == True:
         room2WithOutFriend()
 
 #room3
+print("The man says: Hello",infoList[0],". I challenge you to a game of rock paper scissors.\nI have 5 lives and everytime you beat me I lose one life. If you defeat me I will let you escape.")
+accept_challenge = input("Do you accept the challenge? y/n:")
+boss_bar =  ['❤️','❤️','❤️','❤️','❤️']
+player_health = ['❤️','❤️','❤️']
+room3Start = False
+room3StartWithoutFriend = False
+def gameEnd():
+    print("Thank you for playing! You finished the game with",starCount,"Collaboration Stars.")
+if accept_challenge.lower() == "n":
+    print(gameOver)
+    print("You finished the game but didn't escape.")
+    print("Your finished the game with a total of ",starCount,"Collaboration Stars\n Thanks for playing!")
+elif accept_challenge.lower() == "y":
+    if phoneChoice == "y":
+        room3Start = True
+    elif phoneChoice == "n":
+        room3StartWithoutFriend = True
+
+while room3Start == True:
+    possible_actions = ["rock", "paper", "scissors"]
+    computer_action = random.choice(possible_actions)
+    if computer_action == "rock":
+        randChoice = random.randint(1,2)
+        if randChoice == 1:
+            print(friend1Name,"whispers in your ear that he thinks the man will go rock.")
+        else:
+            print(friend1Name,"whispers in your ear that he thinks the man will go scissors.")
+    if computer_action == "paper":
+        randChoice = random.randint(1,2)
+        if randChoice == 1:
+            print(friend1Name,"whispers in your ear that he thinks the man will go paper.")
+        else:
+            print(friend1Name,"whispers in your ear that he thinks the man will go rock.")
+    if computer_action == "scissors":
+        randChoice = random.randint(1,2)
+        if randChoice == 1:
+            print(friend1Name,"whispers in your ear that he thinks the man will go scissors.")
+        else:
+            print(friend1Name,"whispers in your ear that he thinks the man will go paper.")
+    
+
+    user_action = input("Enter a choice (rock, paper, scissors): ")
+    print("\nYou chose", user_action, "computer chose", computer_action,"\n")
+
+    if user_action == computer_action:
+        print("Both players selected", user_action,". It's a tie!")
+    elif user_action == "rock":
+        if computer_action == "scissors":
+            print("Rock smashes scissors! You win!")
+            boss_bar.pop(0)
+            print("The man now has",boss_bar,"health.")
+        else:
+            print("Paper covers rock! You lose.")
+            player_health.pop(0)
+            print("You now have",player_health,"health.")
+    elif user_action == "paper":
+        if computer_action == "rock":
+            print("Paper covers rock! You win!")
+            boss_bar.pop(0)
+            print("The man now has",boss_bar,"health.")
+        else:
+            print("Scissors cuts paper! You lose.")
+            player_health.pop(0)
+            print("You now have",player_health,"health.")
+    elif user_action == "scissors":
+        if computer_action == "paper":
+            print("Scissors cuts paper! You win!")
+            boss_bar.pop(0)
+            print("The man now has",boss_bar,"health.")
+        else:
+            print("Rock smashes scissors! You lose.")
+            player_health.pop(0)
+            print("You now have",player_health,"health.")
+
+    if boss_bar == []:
+        print("The man says: Congratulations, you have defeated me. You may now exit the game and escape.")
+        time.sleep(1)
+        print("But before you go please take this.\nThe mysterious man hands you a Collaboration star")
+        starCount += 1
+        collaborationStar()
+        gameEnd()
+        room3Start = False
+    elif player_health == []:
+        print(gameOver)
+        print("You finished the game but didn't escape.")
+        print("Your finished the game with a total of ",starCount,"Collaboration Stars\n Thanks for playing!")
+        room3Start = False
+
+
+
+while room3StartWithoutFriend == True:
+    possible_actions = ["rock", "paper", "scissors"]
+    computer_action = random.choice(possible_actions)
+    user_action = input("Enter a choice (rock, paper, scissors): ")
+    print("\nYou chose", user_action, "computer chose", computer_action,"\n")
+
+    if user_action == computer_action:
+        print("Both players selected", user_action,". It's a tie!")
+    elif user_action == "rock":
+        if computer_action == "scissors":
+            print("Rock smashes scissors! You win!")
+            boss_bar.pop(0)
+            print("The man now has",boss_bar,"health.")
+        else:
+            print("Paper covers rock! You lose.")
+            player_health.pop(0)
+            print("You now have",player_health,"health.")
+    elif user_action == "paper":
+        if computer_action == "rock":
+            print("Paper covers rock! You win!")
+            boss_bar.pop(0)
+            print("The man now has",boss_bar,"health.")
+        else:
+            print("Scissors cuts paper! You lose.")
+            player_health.pop(0)
+            print("You now have",player_health,"health.")
+    elif user_action == "scissors":
+        if computer_action == "paper":
+            print("Scissors cuts paper! You win!")
+            boss_bar.pop(0)
+            print("The man now has",boss_bar,"health.")
+        else:
+            print("Rock smashes scissors! You lose.")
+            player_health.pop(0)
+            print("You now have",player_health,"health.")
+
+    if boss_bar == []:
+        print("The man says: Congratulations, you have defeated me. You may now exit the game and escape.")
+        time.sleep(1)
+        print("But before you go please take this.\nThe mysterious man hands you a Collaboration star")
+        starCount += 1
+        collaborationStar()
+        gameEnd()
+        room3Start = False
+    elif player_health == []:
+        print(gameOver)
+        print("You finished the game but didn't escape.")
+        print("Your finished the game with a total of ",starCount,"Collaboration Stars\n Thanks for playing!")
+        room3Start = False
 
     
 
