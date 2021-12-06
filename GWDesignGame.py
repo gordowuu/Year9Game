@@ -1,7 +1,6 @@
 import getUserInfo as info
 from art import *
 import time
-import playsound
 from pygame import mixer
 import textgamelib
 import random
@@ -15,8 +14,11 @@ gameOver = text2art("Game Over", font="small")
 def collaborationStar():
     global starCount
     print("⭐")
-    playsound.playsound('./Year9Game/music/star.mp3')
+    mixer.init()
+    mixer.music.load('./Year9Game/music/star.mp3')
+    mixer.music.play()
     print("You currently have", starCount, "collaboration stars.")
+    mixer.music.stop()
 
 
 
